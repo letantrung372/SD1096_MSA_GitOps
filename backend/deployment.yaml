@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
       - name: backend-container
-        image: 307946653621.dkr.ecr.ap-southeast-1.amazonaws.com/practical-devops-ecr:SD1096-backend.25-20241230025039
+        image: 307946653621.dkr.ecr.ap-southeast-1.amazonaws.com/practical-devops-ecr:SD1096-backend.4-20241230060014
         ports:
         - containerPort: 3000
