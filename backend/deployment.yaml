@@ -1,20 +1,48 @@
+# Backend
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  labels:
+    app: backend
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 3000
+      protocol: TCP
+      targetPort: 3000
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-deployment
-  namespace: backend-ns
+  labels:
+    app: backend
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: backend-deployment
+      app: backend
+  replicas: 1
   template:
     metadata:
       labels:
-        app: backend-deployment
+        app: backend
     spec:
       containers:
-      - name: backend-container
-        image: 307946653621.dkr.ecr.ap-southeast-1.amazonaws.com/practical-devops-ecr:SD1096-backend.22-20241229134854
-        ports:
-        - containerPort: 3000
+        - name: backend-container
+          image: 307946653621.dkr.ecr.ap-southeast-1.amazonaws.com/practical-devops-ecr:SD1096-backend.22-20241229134854
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          env:
+            - name: NODE_ENV
+              value: "production"

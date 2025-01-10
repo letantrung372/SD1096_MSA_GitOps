@@ -1,20 +1,46 @@
+# Frontend
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  labels:
+    app: frontend
+spec:
+  selector:
+    app: frontend
+  ports:
+    - port: 3000
+      protocol: TCP
+      targetPort: 3000
+  type: LoadBalancer
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-deployment
-  namespace: frontend-ns
+  labels:
+    app: frontend
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: frontend-deployment
+      app: frontend
+  replicas: 1
   template:
     metadata:
       labels:
-        app: frontend-deployment
+        app: frontend
     spec:
       containers:
-      - name: frontend-container
-        image: 307946653621.dkr.ecr.ap-southeast-1.amazonaws.com/practical-devops-ecr:SD1096-frontend.22-20241229133919
-        ports:
-        - containerPort: 3000
+        - name: frontend-container
+          image: 307946653621.dkr.ecr.ap-southeast-1.amazonaws.com/practical-devops-ecr:SD1096-frontend.22-20241229133919
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
